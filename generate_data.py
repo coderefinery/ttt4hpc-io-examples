@@ -11,7 +11,7 @@ except:
 for year in range(2016,2024):
    for month in range(1,13):
      for day in range(31):
-      print(year, month)
+      print(year, month, day)
       try:
           os.makedirs(f"data/activity_{year}_{month}")
       except:
