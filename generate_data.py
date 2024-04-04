@@ -18,10 +18,14 @@ for year in range(2004,2024):
           pass
       data = []
       for hour in range(24):
-          data.append({
-             "hour": hour,
-             "activity_level": np.random.randint(1,5)
-          })
+            if hour < 9:
+                a = 0
+            else:
+                a = np.random.randint(1,5)
+            data.append({
+                "hour": hour,
+                "activity_level": np.random.randint(1,5)
+            })
       data = pd.DataFrame(data)
       data.to_csv(f"data/activity_{year}_{month}/activity_{year}_{month}_{day}.csv")
 

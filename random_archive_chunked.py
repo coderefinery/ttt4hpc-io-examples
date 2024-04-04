@@ -15,7 +15,6 @@ with open("data.tar", "rb") as tar:
 csvs = []
 with tarfile.open(fileobj=io.BytesIO(content)) as tar:
     
-    
     for i, member in enumerate(tar):
         if i % 10 == 0:
             csv = "index,hour,activity_level\n"
