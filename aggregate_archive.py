@@ -11,6 +11,9 @@ start_time = time.time()
 with open("data.tar", "rb") as tar:
     content = tar.read()
 
+end_time = time.time()
+print(f"Time taken reading to memory: {end_time - start_time} seconds")
+
 # Now process
 csv = "index,hour,activity_level\n"
 with tarfile.open(fileobj=io.BytesIO(content)) as tar:
