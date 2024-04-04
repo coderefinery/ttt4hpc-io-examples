@@ -12,10 +12,6 @@ for folder in os.listdir("data"):
         with open(f"data/{folder}/{file}") as f:
             csv += "\n".join(f.readlines()[1:])
 
-end_time = time.time()
-print(f"Time taken reading files: {end_time - start_time} seconds")
-
-
 data = pd.read_csv(io.StringIO(csv))
 mean = data["activity_level"].mean()
 

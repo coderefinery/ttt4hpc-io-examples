@@ -20,10 +20,6 @@ with tarfile.open(fileobj=io.BytesIO(content)) as tar:
             f = io.TextIOWrapper(f)
             csv += "\n".join(f.readlines()[1:])
 
-end_time = time.time()
-print(f"Time taken reading files: {end_time - start_time} seconds")
-
-
 data = pd.read_csv(io.StringIO(csv))
 mean = data["activity_level"].mean()
 
