@@ -1,17 +1,22 @@
 import os
 import pandas as pd
-import numpy as np
+import io
 import time
 
 # iterate over folders matching data/*/*.csv
 start_time = time.time()
 
-dfs = []
+texts = []
 for folder in os.listdir("data"):
     for file in os.listdir(f"data/{folder}"):
-        dfs.append(pd.read_csv(f"data/{folder}/{file}"))
+        with open(f"data/{folder}/{file}") as f:
+            texts.append(f.read())
 
-data = pd.concat(dfs)
+end_time = time.time()
+print(f"Time taken reading files: {end_time - start_time} seconds")
+
+
+data = pd.concat([pd.read_csv(io.StringIO(text)) for text in texts])
 mean = data["activity_level"].mean()
 
 end_time = time.time()

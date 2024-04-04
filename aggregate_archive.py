@@ -8,17 +8,19 @@ import io
 # iterate over files in data.zip matching data/*/*.csv
 start_time = time.time()
 
-dfs = []
+texts = []
 with tarfile.open("data.tar") as tar:
     for member in tar:
         if member.name.endswith(".csv"):
             f = tar.extractfile(member)
-            content = io.BytesIO(f.read())
-            dfs.append(pd.read_csv(content))
-            
-data = pd.concat(dfs)
-mean = data["activity_level"].mean()
+            texts.append(f.read())
 
+end_time = time.time()
+print(f"Time taken reading files: {end_time - start_time} seconds")
+
+
+data = pd.concat([pd.read_csv(io.BytesIO(text)) for text in texts])
+mean = data["activity_level"].mean()
 
 end_time = time.time()
 print(f"Time taken: {end_time - start_time} seconds")
