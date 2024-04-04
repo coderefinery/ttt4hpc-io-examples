@@ -1,17 +1,20 @@
 import os
-import zipfile
+import tarfile
 import pandas as pd
 import numpy as np
 import time
+import io
 
 # iterate over files in data.zip matching data/*/*.csv
 start_time = time.time()
 
 dfs = []
-with zipfile.ZipFile("data.zip") as z:
-    for filename in z.namelist():
-        if filename.endswith(".csv"):
-            dfs.append(pd.read_csv(z.open(filename)))
+with tarfile.open("data.tar") as tar:
+    for member in tar:
+        if member.name.endswith(".csv"):
+            f = tar.extractfile(member)
+            content = io.BytesIO(f.read())
+            dfs.append(pd.read_csv(content))
             
 data = pd.concat(dfs)
 mean = data["activity_level"].mean()
