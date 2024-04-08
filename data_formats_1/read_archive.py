@@ -9,7 +9,7 @@ streaming_mode = True
 
 if streaming_mode:
     mode = "r|"
-else
+else:
     mode = "r"
 
 
