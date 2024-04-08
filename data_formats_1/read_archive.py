@@ -16,7 +16,7 @@ print(f"Time taken reading to memory: {end_time - start_time} seconds")
 # Actually extracting the file contents
 start_time = time.time()
 csv = "index,hour,activity_level\n"
-with tarfile.open("data.tar") as tar:
+with tarfile.open(fileobj=io.BytesIO(content)) as tar:
     for member in tar:
         if member.name.endswith(".csv"):
             f = tar.extractfile(member)
