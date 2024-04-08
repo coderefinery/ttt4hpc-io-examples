@@ -1,2 +1,5 @@
 pandas
 numpy
+webdataset
+torchvision
+tqdm
