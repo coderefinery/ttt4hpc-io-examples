@@ -4,27 +4,22 @@ import os
 import tarfile
 import pandas as pd
 
-# Read the tar file into memory
-start_time = time.time()
-with open("data.tar", "rb") as tar:
-    content = tar.read()
 
-end_time = time.time()
-print(f"Time taken reading to memory: {end_time - start_time} seconds")
-
-
-# Actually extracting the file contents
+# Read sequantially. The "r|" sets tar reading mode to
+# streaming
 start_time = time.time()
 csv = "index,hour,activity_level\n"
-with tarfile.open(fileobj=io.BytesIO(content)) as tar:
+with tarfile.open("data.tar", "r|") as tar:
     for member in tar:
         if member.name.endswith(".csv"):
             f = tar.extractfile(member)
-            f = io.TextIOWrapper(f)
-            csv += "\n".join(f.readlines()[1:])
+            lines = f.read().decode("utf-8").split("\n")
+            csv += "\n".join(lines[1:])
+
 
 data = pd.read_csv(io.StringIO(csv))
 mean = data["activity_level"].mean()
+
 
 end_time = time.time()
 print(f"Time taken: {end_time - start_time} seconds")
