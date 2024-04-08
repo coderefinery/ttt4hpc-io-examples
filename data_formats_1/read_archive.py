@@ -1,6 +1,5 @@
 import time
 import io
-import os
 import tarfile
 import pandas as pd
 
@@ -16,15 +15,18 @@ else:
 # Read sequantially. The "r|" sets tar reading mode to
 # streaming
 start_time = time.time()
-csv = "index,hour,activity_level\n"
+texts = []
 with tarfile.open("data.tar", mode) as tar:
     for member in tar:
         if member.name.endswith(".csv"):
             f = tar.extractfile(member)
-            lines = f.read().decode("utf-8").split("\n")
-            csv += "\n".join(lines[1:])
+            texts.append(f.read().decode("utf-8"))
 
 
+csv = "index,hour,activity_level\n"
+csv += "\n".join([
+    "\n".join(t.split("\n")[1:]) for t in texts
+])
 data = pd.read_csv(io.StringIO(csv))
 mean = data["activity_level"].mean()
 
