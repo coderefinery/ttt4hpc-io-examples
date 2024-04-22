@@ -3,7 +3,7 @@ import glob
 
 
 # List all shards
-urls = glob.glob("*.tar")
+urls = glob.glob("data/*.tar")
 
 # Create a dataset. Set it up to shuffle in batches of 100 images.
 dataset = (
